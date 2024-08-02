@@ -1,7 +1,2 @@
 /.idea/
-/.idea/*
-/.idea/**
-/assigment/
-/dist/
-/.env
-node_modules
+/dist/.env
