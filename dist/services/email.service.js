@@ -27,10 +27,10 @@ class EmailService {
         this.transporter.use("compile", (0, nodemailer_express_handlebars_1.default)({
             viewEngine: {
                 extname: ".hbs",
-                partialsDir: node_path_1.default.join(process.cwd(), "src", "templates", "partials"),
-                layoutsDir: node_path_1.default.join(process.cwd(), "src", "templates", "layouts"),
+                partialsDir: node_path_1.default.join(process.cwd(), "templates", "partials"),
+                layoutsDir: node_path_1.default.join(process.cwd(), "templates", "layouts"),
             },
-            viewPath: node_path_1.default.join(process.cwd(), "src", "templates", "views"),
+            viewPath: node_path_1.default.join(process.cwd(), "templates", "views"),
             extName: ".hbs",
         }));
     }
