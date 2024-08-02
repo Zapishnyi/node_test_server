@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.userRouter = void 0;
+const express_1 = require("express");
+const user_controller_1 = require("../controllers/user.controller");
+const tokenTypeList_enum_1 = require("../enums/tokenTypeList.enum");
+const auth_check_1 = require("../middlewares/auth.check");
+const id_check_1 = require("../middlewares/id.check");
+const user_check_1 = require("../middlewares/user.check");
+const validate_1 = require("../middlewares/validate");
+const user_validator_1 = require("../validators/user.validator");
+const router = (0, express_1.Router)();
+router.get("/", auth_check_1.auth.tokenCheck(tokenTypeList_enum_1.TokenEnumList.access), user_check_1.userCheck.role(), user_controller_1.userController.findAll);
+router.get("/me", auth_check_1.auth.tokenCheck(tokenTypeList_enum_1.TokenEnumList.access), user_controller_1.userController.findMe);
+router.get("/:id", auth_check_1.auth.tokenCheck(tokenTypeList_enum_1.TokenEnumList.access), (0, id_check_1.idCheck)(), user_check_1.userCheck.role(), user_controller_1.userController.findOne);
+router.patch("/:id", auth_check_1.auth.tokenCheck(tokenTypeList_enum_1.TokenEnumList.access), (0, id_check_1.idCheck)(), user_check_1.userCheck.role(), (0, validate_1.validate)(user_validator_1.validUser.userUpdate), user_controller_1.userController.updateOne);
+router.delete("/:id", auth_check_1.auth.tokenCheck(tokenTypeList_enum_1.TokenEnumList.access), (0, id_check_1.idCheck)(), user_check_1.userCheck.role(), user_controller_1.userController.deleteOne);
+exports.userRouter = router;
