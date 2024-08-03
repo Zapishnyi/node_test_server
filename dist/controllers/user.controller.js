@@ -26,7 +26,7 @@ class UserController {
         try {
             res
                 .status(200)
-                .json(await user_service_1.userServices.findOneByParam({ _id: res.locals.userId }));
+                .json(await user_service_1.userServices.findOneByParam({ _id: res.locals._userId }));
         }
         catch (err) {
             next(err);
