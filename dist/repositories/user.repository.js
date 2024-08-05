@@ -8,7 +8,6 @@ class UserRepository {
         return await user_model_1.UserModel.find();
     }
     async createOne(dto) {
-        await user_model_1.UserModel.syncIndexes();
         return await user_model_1.UserModel.create(dto);
     }
     async findOneById(id) {
@@ -25,14 +24,12 @@ class UserRepository {
         return await user_model_1.UserModel.find(param);
     }
     async updateOne(id, dto, returnType) {
-        const result = await user_model_1.UserModel.findOneAndUpdate({ _id: id }, dto, { returnDocument: returnType });
+        const result = await user_model_1.UserModel.findByIdAndUpdate(id, dto, { returnDocument: returnType });
         (0, noIdFound_1.noFoundCheck)(id, result);
         return result;
     }
     async deleteOne(id) {
-        const result = await user_model_1.UserModel.findOneAndDelete({
-            _id: id,
-        });
+        const result = await user_model_1.UserModel.findByIdAndDelete(id);
         (0, noIdFound_1.noFoundCheck)(id, result);
         return result;
     }

@@ -13,14 +13,14 @@ class validCar {
     static price = joi_1.default.number().min(0);
     static img = joi_1.default.string().uri().trim();
     static secondHand = joi_1.default.boolean();
-    static carStrict = joi_1.default.object({
+    static create = joi_1.default.object({
         brand: this.brand.required(),
         yearBuild: this.yearBuild.required(),
         price: this.price.required(),
         img: this.img.required(),
         secondHand: this.secondHand.required(),
     });
-    static carNotStrict = joi_1.default.object({
+    static update = joi_1.default.object({
         brand: this.brand,
         yearBuild: this.yearBuild,
         price: this.price,

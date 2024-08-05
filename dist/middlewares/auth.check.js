@@ -35,12 +35,11 @@ class AuthCheck {
     newPasswordCheck() {
         return async (req, res, next) => {
             try {
-                const oldPasswordsArray = await old_passwords_repository_1.oldPasswordsRepository.findManyByParams({
+                const oldPasswordsArray = (await old_passwords_repository_1.oldPasswordsRepository.findManyByParams({
                     _userId: res.locals._userId,
                     createdAt: { $gt: (0, dayjs_1.default)().subtract(90, "days").toDate() },
-                });
-                console.log("OldPAsswords", oldPasswordsArray);
-                if (oldPasswordsArray?.filter(async (e) => await hash_service_1.hashService.compare(req.body.password, e.password)).length) {
+                })) || [];
+                if ([...oldPasswordsArray, { password: res.locals.user.password }].filter(async (e) => await hash_service_1.hashService.compare(req.body.password, e.password)).length) {
                     throw new api_error_1.ApiError("This password had been in use", 401);
                 }
                 next();

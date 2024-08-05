@@ -9,7 +9,7 @@ class CarCheck {
         return async (req, res, next) => {
             try {
                 const ownerId = (await car_service_1.carServices.findOne(req.params.id))
-                    .ownerId;
+                    ._ownerId;
                 const userId = res.locals.userId;
                 const role = (await user_service_1.userServices.findOneById(userId)).role;
                 if (ownerId !== userId && role !== "admin") {

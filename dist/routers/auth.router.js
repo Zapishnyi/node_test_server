@@ -8,7 +8,7 @@ const auth_check_1 = require("../middlewares/auth.check");
 const validate_1 = require("../middlewares/validate");
 const user_validator_1 = require("../validators/user.validator");
 const router = (0, express_1.Router)();
-router.post("/sing-up", (0, validate_1.validate)(user_validator_1.validUser.singUp), auth_check_1.auth.newPasswordCheck(), auth_controller_1.authController.singUp);
+router.post("/sing-up", (0, validate_1.validate)(user_validator_1.validUser.singUp), auth_controller_1.authController.singUp);
 router.get("/login", (0, validate_1.validate)(user_validator_1.validUser.login), auth_check_1.auth.passwordCheckBeforeLogin(), auth_controller_1.authController.login);
 router.post("/verify", auth_check_1.auth.tokenCheck(tokenTypeList_enum_1.TokenEnumList.action), auth_controller_1.authController.verify);
 router.post("/password/forgot", (0, validate_1.validate)(user_validator_1.validUser.emailCheck), auth_check_1.auth.emailCheck(), auth_controller_1.authController.forgotPassword);
