@@ -1,9 +1,10 @@
 "use strict";
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validate = void 0;
+exports.validateBody = exports.validateQuery = void 0;
 const api_error_1 = require("../errors/api.error");
 class Validate {
-    validate(validationSchema) {
+    validateBody(validationSchema) {
         return async (req, res, next) => {
             try {
                 await validationSchema.validateAsync(req.body);
@@ -15,5 +16,17 @@ class Validate {
             }
         };
     }
+    validateQuery(validationSchema) {
+        return async (req, res, next) => {
+            try {
+                await validationSchema.validateAsync(req.query);
+                next();
+            }
+            catch (err) {
+                const error = err;
+                next(new api_error_1.ApiError(error.message, 400));
+            }
+        };
+    }
 }
-exports.validate = new Validate().validate;
+_a = new Validate(), exports.validateQuery = _a.validateQuery, exports.validateBody = _a.validateBody;

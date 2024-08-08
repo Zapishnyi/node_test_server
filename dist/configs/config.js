@@ -21,4 +21,10 @@ exports.config = {
     SMTP_PORT: Number(process.env.SMTP_PORT),
     SMTP_ADDRESS: process.env.SMTP_EMAIL,
     IMAP: process.env.IMAP_PASS,
+    AWS_ID: process.env.AWS_KEY_ID,
+    AWS_ACCESS_KEY: process.env.AWS_ACCESS_KEY,
+    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
+    AWS_REGION: process.env.AWS_REGION,
+    AWS_S3_ACL: process.env.AWS_S3_ACL,
+    AWS_END_POINT_URL: process.env.AWS_END_POINT_URL,
 };

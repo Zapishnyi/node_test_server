@@ -15,6 +15,7 @@ const userSchema = new Schema({
     age: { type: Number, required: false },
     email: { type: String, require: false, unique: true },
     phone: { type: String, require: false },
+    avatar: { type: String, require: false },
     gender: { type: String, enum: gender_enum_1.GenderEnum, required: false },
     role: {
         type: String,
