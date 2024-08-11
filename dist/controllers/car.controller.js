@@ -5,7 +5,8 @@ const car_service_1 = require("../services/car.service");
 class CarController {
     async findAll(req, res, next) {
         try {
-            res.status(200).json(await car_service_1.carServices.findAll());
+            const query = req.query;
+            res.status(200).json(await car_service_1.carServices.findAll(query));
         }
         catch (err) {
             next(err);

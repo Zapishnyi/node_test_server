@@ -7,7 +7,7 @@ class Validate {
     validateBody(validationSchema) {
         return async (req, res, next) => {
             try {
-                await validationSchema.validateAsync(req.body);
+                req.body = await validationSchema.validateAsync(req.body);
                 next();
             }
             catch (err) {
@@ -19,7 +19,7 @@ class Validate {
     validateQuery(validationSchema) {
         return async (req, res, next) => {
             try {
-                await validationSchema.validateAsync(req.query);
+                req.query = await validationSchema.validateAsync(req.query);
                 next();
             }
             catch (err) {

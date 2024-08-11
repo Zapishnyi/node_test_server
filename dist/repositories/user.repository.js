@@ -4,8 +4,12 @@ exports.userRepository = void 0;
 const noIdFound_1 = require("../errors/noIdFound");
 const user_model_1 = require("../models/user.model");
 class UserRepository {
-    async findAll() {
-        return await user_model_1.UserModel.find();
+    async findAll({ limit, page, }) {
+        const users = await user_model_1.UserModel.find()
+            .limit(limit)
+            .skip((page - 1) * limit);
+        const total = await user_model_1.UserModel.countDocuments();
+        return [users, total];
     }
     async createOne(dto) {
         return await user_model_1.UserModel.create(dto);

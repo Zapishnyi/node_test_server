@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
 const image_directory_name_enum_1 = require("../enums/image-directory-name.enum");
+const presenter_1 = require("../presenters/presenter");
 const auth_token_repository_1 = require("../repositories/auth_token.repository");
 const user_repository_1 = require("../repositories/user.repository");
 const s3_service_1 = require("./s3.service");
 class UserServices {
-    async findAll() {
-        return await user_repository_1.userRepository.findAll();
+    async findAll({ limit, page, }) {
+        const [users, total] = await user_repository_1.userRepository.findAll({ limit, page });
+        return (0, presenter_1.toPresentPaginated)(limit, page, total, users.map((e) => (0, presenter_1.toPresentUser)(e)));
     }
     async findOneById(userId) {
         return await user_repository_1.userRepository.findOneById(userId);

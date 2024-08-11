@@ -22,7 +22,7 @@ class validUser {
     static email = joi_1.default.string().pattern(regexp_1.regexp.email).trim().messages({
         "string.pattern.base": "Must be a valid email address",
     });
-    static phone = joi_1.default.string().pattern(regexp_1.regexp.phone).messages({
+    static phone = joi_1.default.string().pattern(regexp_1.regexp.phone).trim().messages({
         "string.pattern.base": "Must be a valid phone number",
     });
     static gender = joi_1.default.string().valid(...Object.values(gender_enum_1.GenderEnum));
