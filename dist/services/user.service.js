@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
-const image_directory_name_enum_1 = require("../enums/image-directory-name.enum");
+const imageDirectoryName_enum_1 = require("../enums/imageDirectoryName.enum");
 const presenter_1 = require("../presenters/presenter");
 const auth_token_repository_1 = require("../repositories/auth_token.repository");
 const user_repository_1 = require("../repositories/user.repository");
@@ -32,7 +32,7 @@ class UserServices {
             if (oldAvatar) {
                 await s3_service_1.s3Service.deleteFile(oldAvatar);
             }
-            const avatarPath = await s3_service_1.s3Service.uploadFile(image_directory_name_enum_1.ImageDirectoryNameEnum.avatar, _userId, avatar);
+            const avatarPath = await s3_service_1.s3Service.uploadFile(imageDirectoryName_enum_1.ImageDirectoryNameEnum.avatar, _userId, avatar);
             dto = { ...dto, avatar: avatarPath };
         }
         return await user_repository_1.userRepository.updateOne(_userId, dto, returnType);

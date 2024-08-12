@@ -7,7 +7,7 @@ exports.userNoActivity = void 0;
 const cron_1 = require("cron");
 const dayjs_1 = __importDefault(require("dayjs"));
 const config_1 = require("../configs/config");
-const email_type_enum_1 = require("../enums/email-type.enum");
+const emailType_enum_1 = require("../enums/emailType.enum");
 const auth_token_repository_1 = require("../repositories/auth_token.repository");
 const user_repository_1 = require("../repositories/user.repository");
 const email_service_1 = require("../services/email.service");
@@ -23,7 +23,7 @@ const UserNoActivity = async () => {
             for (const id of noActivityUsersId) {
                 const user = await user_repository_1.userRepository.findOneById(id);
                 if (user) {
-                    await email_service_1.emailService.sendEmail(email_type_enum_1.EmailTypeEnum.REMIND, user.email, {
+                    await email_service_1.emailService.sendEmail(emailType_enum_1.EmailTypeEnum.REMIND, user.email, {
                         name: user.userName,
                         frontUrl: config_1.config.FRONT_END_URL,
                     });

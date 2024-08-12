@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authServices = void 0;
 const config_1 = require("../configs/config");
-const action_type_enum_1 = require("../enums/action-type.enum");
-const email_type_enum_1 = require("../enums/email-type.enum");
+const actionType_enum_1 = require("../enums/actionType.enum");
+const emailType_enum_1 = require("../enums/emailType.enum");
 const returnDocumentType_enum_1 = require("../enums/returnDocumentType.enum");
 const action_token_repository_1 = require("../repositories/action_token.repository");
 const auth_token_repository_1 = require("../repositories/auth_token.repository");
@@ -18,17 +18,17 @@ class AuthServices {
             ...dto,
             password: await hash_service_1.hashService.hash(dto.password),
         });
-        await email_service_1.emailService.sendEmail(email_type_enum_1.EmailTypeEnum.WELCOME, dto.email, {
+        await email_service_1.emailService.sendEmail(emailType_enum_1.EmailTypeEnum.WELCOME, dto.email, {
             name: dto.userName,
-            actionToken: (await action_token_repository_1.actionTokenRepository.create(userCreated._id, action_type_enum_1.ActionTypeEnum.email_verify)).action,
+            actionToken: (await action_token_repository_1.actionTokenRepository.create(userCreated._id, actionType_enum_1.ActionTypeEnum.email_verify)).action,
             frontUrl: config_1.config.FRONT_END_URL,
         });
         return userCreated;
     }
     async forgotPassword(user) {
-        await email_service_1.emailService.sendEmail(email_type_enum_1.EmailTypeEnum.FORGOT_PASSWORD, user.email, {
+        await email_service_1.emailService.sendEmail(emailType_enum_1.EmailTypeEnum.FORGOT_PASSWORD, user.email, {
             name: user.userName,
-            actionToken: (await action_token_repository_1.actionTokenRepository.create(user._id, action_type_enum_1.ActionTypeEnum.password_renew)).action,
+            actionToken: (await action_token_repository_1.actionTokenRepository.create(user._id, actionType_enum_1.ActionTypeEnum.password_renew)).action,
             frontUrl: config_1.config.FRONT_END_URL,
         });
     }
@@ -38,7 +38,7 @@ class AuthServices {
             password: newPassword,
         }, returnDocumentType_enum_1.ReturnDocumentTypeEnum.Before);
         if (userOld) {
-            await email_service_1.emailService.sendEmail(email_type_enum_1.EmailTypeEnum.PASSWORD_CHANGED, userOld.email, {
+            await email_service_1.emailService.sendEmail(emailType_enum_1.EmailTypeEnum.PASSWORD_CHANGED, userOld.email, {
                 name: userOld.userName,
                 frontUrl: config_1.config.FRONT_END_URL,
             });
@@ -65,7 +65,7 @@ class AuthServices {
         await auth_token_repository_1.authTokenRepository.deleteOne(token);
         const user = await user_service_1.userServices.findOneById(userId);
         if (user) {
-            await email_service_1.emailService.sendEmail(email_type_enum_1.EmailTypeEnum.LOG_OUT, user.email, {
+            await email_service_1.emailService.sendEmail(emailType_enum_1.EmailTypeEnum.LOG_OUT, user.email, {
                 name: user.userName,
                 frontUrl: config_1.config.FRONT_END_URL,
             });
@@ -75,7 +75,7 @@ class AuthServices {
         await auth_token_repository_1.authTokenRepository.deleteAll(userId);
         const user = await user_service_1.userServices.findOneById(userId);
         if (user) {
-            await email_service_1.emailService.sendEmail(email_type_enum_1.EmailTypeEnum.LOG_OUT, user.email, {
+            await email_service_1.emailService.sendEmail(emailType_enum_1.EmailTypeEnum.LOG_OUT, user.email, {
                 name: user.userName,
                 frontUrl: config_1.config.FRONT_END_URL,
             });
