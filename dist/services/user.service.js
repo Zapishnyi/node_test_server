@@ -7,9 +7,13 @@ const auth_token_repository_1 = require("../repositories/auth_token.repository")
 const user_repository_1 = require("../repositories/user.repository");
 const s3_service_1 = require("./s3.service");
 class UserServices {
-    async findAll({ limit, page, }) {
-        const [users, total] = await user_repository_1.userRepository.findAll({ limit, page });
-        return (0, presenter_1.toPresentPaginated)(limit, page, total, users.map((e) => (0, presenter_1.toPresentUser)(e)));
+    async findAll(query) {
+        const [users, total] = await user_repository_1.userRepository.findAll(query);
+        return (0, presenter_1.toPresentPaginated)({
+            ...query,
+            total,
+            data: users.map((e) => (0, presenter_1.toPresentUser)(e)),
+        });
     }
     async findOneById(userId) {
         return await user_repository_1.userRepository.findOneById(userId);

@@ -4,11 +4,52 @@ exports.userRepository = void 0;
 const noIdFound_1 = require("../errors/noIdFound");
 const user_model_1 = require("../models/user.model");
 class UserRepository {
-    async findAll({ limit, page, }) {
-        const users = await user_model_1.UserModel.find()
+    async findAll({ page, limit, order, orderBy, search, }) {
+        const filterObject = {};
+        if (search) {
+            filterObject.$or = [
+                {
+                    userName: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+                {
+                    email: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+                {
+                    role: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+                {
+                    name: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+                {
+                    age: search ? (Number(search) ? +search : 0) : 0,
+                },
+                {
+                    phone: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+            ];
+        }
+        const sortObject = {};
+        sortObject[orderBy] = order;
+        const users = await user_model_1.UserModel.find(filterObject)
             .limit(limit)
-            .skip((page - 1) * limit);
-        const total = await user_model_1.UserModel.countDocuments();
+            .skip((page - 1) * limit)
+            .sort(sortObject);
+        const total = await user_model_1.UserModel.countDocuments(filterObject);
         return [users, total];
     }
     async createOne(dto) {

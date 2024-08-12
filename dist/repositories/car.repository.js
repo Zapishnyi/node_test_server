@@ -1,14 +1,38 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carRepository = void 0;
+const mongoose_1 = require("mongoose");
 const noIdFound_1 = require("../errors/noIdFound");
 const car_model_1 = require("../models/car.model");
 class CarRepository {
-    async findAll({ limit, page, }) {
-        const cars = await car_model_1.CarModel.find()
+    async findAll({ limit, page, order, orderBy, search, }) {
+        const filterObject = {};
+        if (search) {
+            filterObject.$or = [
+                {
+                    brand: {
+                        $regex: search,
+                        $options: "i",
+                    },
+                },
+                {
+                    yearBuild: search ? (Number(search) ? +search : 0) : 0,
+                },
+                {
+                    price: search ? (Number(search) ? +search : 0) : 0,
+                },
+                {
+                    _ownerId: (0, mongoose_1.isObjectIdOrHexString)(search) ? search : null,
+                },
+            ];
+        }
+        const sortObject = {};
+        sortObject[orderBy] = order;
+        const cars = await car_model_1.CarModel.find(filterObject)
             .limit(limit)
-            .skip((page - 1) * limit);
-        const total = await car_model_1.CarModel.countDocuments();
+            .skip((page - 1) * limit)
+            .sort(sortObject);
+        const total = await car_model_1.CarModel.countDocuments(filterObject);
         return [cars, total];
     }
     async createOne(dto) {
